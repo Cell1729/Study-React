@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+# Reactメモ
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[node.js](https://nodejs.org/en/download/)
 
-## Available Scripts
+## コマンド
 
-In the project directory, you can run:
+nodeのバージョンを確認する
 
-### `npm start`
+```sh
+node --version
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npmバージョンを確認する
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```sh
+npm -v
+```
 
-### `npm test`
+## Start Project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+react_appという名前のプロジェクトを作成する
 
-### `npm run build`
+```sh
+npx create-react-app react_app
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+プロジェクト操作系のコマンド
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| コマンド | 操作 |
+| --- | --- |
+| yarn start | 開発サーバーを用いてプログラムを実行する |
+| yarn build | プロジェクトのビルド。実際にサーバーにデプロイするファイルを生成する |
+| yarn test | テストプログラムの実行 |
+| yarn eject | プロジェクトの依存関係をプロジェクト内に移動させ、完全に独立させた形で扱えるようにする |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[引用](https://zenn.dev/web_tips/articles/abad1a544f3643)
 
-### `npm run eject`
+## React
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### CDNでReactを読み込む
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[ディレクトリ](react_init)
+CDN ... Content Delivery Network
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Simple React App No JSC by SDN</title>
+        <script type="module">
+            import React from "https://esm.sh/react@19.0.0-rc-14a4699f-20240725";
+            import ReactDOMClient from "https://esm.sh/react-dom@19.0.0-rc-14a4699f-20240725/client";
+        </script>
+    </head>
+    <body>
+        <h1>React</h1>
+        <div id="root">wait...</div>
+    </body>
+</html>
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+importの構文
 
-## Learn More
+```javascript
+import React from ファイルの指定
+import ReactDOM from ファイルの指定
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### DOM(Document Object Model)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+DOM...HTMLの要素をjavascriptから操作出来るようにするもの
 
-### Code Splitting
+DOMでは要素を１つ１つ更新するため速度が担保できない -> ReactDOMで高速化している
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+ReactDOM ... 更新するベースとなるReactDOMを用意し、エレメントを操作する。それぞれの値を更新し処理が終了したらレンダリングする。
 
-### Analyzing the Bundle Size
+1, webページにあるエレメントからReact DOMのエレメントを作成する
+2, ReactDOMのエレメントを使って表示を操作する
+3, ReactDOMエレメントをレンダリングしてWebページの表示を更新する。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- ルートエレメントの作成
 
-### Making a Progressive Web App
+```javascript
+変数 = RectDOMClient.createRoot(エレメント);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- エレメントの作成
 
-### Advanced Configuration
+```javascript
+変数 = React.createElement(要素名, オプション, コンテンツ);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- レンダリング
 
-### Deployment
+```javascript
+ルート.render(Reactエレメント);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+example
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```javascript
+// div id="root" の取得
+const root = document.getElementById("root");
+// ルートエレメントの作成
+// HTML の div id="root" に対して Reactのルート(ベース)を作成
+const rootElement = ReactDOMClient.createRoot(root);
+// <p>Hello World</p> の作成
+const element = React.createElement('p', {}, "Hello World");
+// ルートエレメントにレンダリング
+rootElement.render(element);
+```
