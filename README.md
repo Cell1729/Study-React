@@ -1,6 +1,7 @@
 # Reactメモ
 
 [node.js](https://nodejs.org/en/download/)
+[参考書](https://amzn.asia/d/5sRolG0)
 
 ## コマンド
 
@@ -37,7 +38,9 @@ npx create-react-app react_app
 
 ## React
 
-### CDNでReactを読み込む
+### chapter1
+
+#### CDNでReactを読み込む
 
 [ディレクトリ](react_init)
 CDN ... Content Delivery Network
@@ -69,7 +72,7 @@ import React from ファイルの指定
 import ReactDOM from ファイルの指定
 ```
 
-### DOM(Document Object Model)
+#### DOM(Document Object Model)
 
 DOM...HTMLの要素をjavascriptから操作出来るようにするもの
 
@@ -93,6 +96,8 @@ ReactDOM ... 更新するベースとなるReactDOMを用意し、エレメン�
 変数 = React.createElement(要素名, オプション, コンテンツ);
 ```
 
+オプションではcssの設定などに使うらしい
+
 - レンダリング
 
 ```javascript
@@ -111,4 +116,55 @@ const rootElement = ReactDOMClient.createRoot(root);
 const element = React.createElement('p', {}, "Hello World");
 // ルートエレメントにレンダリング
 rootElement.render(element);
+```
+
+##### javascriptを別ファイルに分ける
+
+[main.js](react_init\main.js)
+
+```javascript
+// Reactのバージョン
+const version = '19.0.0-rc-14a4699f-20240725';
+
+// moduleをimportする
+async function init() {
+    // Reactのロード
+    const module1 = await import('https://esm.sh/react@${version}');
+    // Reactの取得
+    // windowとしているのは読み込んでいるwindow自体に適用するため
+    window.React = module1.default;
+    // ReactDOMClientのロード
+    const module2 = await import('https://esm.sh/react-dom@${version}/client');
+    // ReactDOMClientの取得
+    window.ReactDOMClient = module2.default;
+    // メインプログラムの実行
+    main();
+}
+
+// mainプログラム
+function main() {
+    const root = document.getElementById('root');
+    const rootElement = ReactDOMClient.createRoot(root);
+    const h2 = React.createElement('h2', null, 'Sample application');
+    const p = React.createElement('p', {}, 'これはReactのサンプルコードです');
+    const div = React.createElement('p', {}, [h2, p]);
+    rootElement.render(div);
+}
+
+// 初期化の実行
+init();
+```
+
+- モジュールの読み込みは非同期処理のため、init関数も非同期関数としておく
+
+モジュールのロード
+
+```javascript
+変数 = await import(スクリプトファイルの指定);
+```
+
+Reactの取得 (今回の場合はデフォルト機能を使うため「.default」)
+
+```javascript
+変数 = モジュール.default;
 ```
