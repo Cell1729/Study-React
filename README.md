@@ -168,3 +168,15 @@ Reactの取得 (今回の場合はデフォルト機能を使うため「.defaul
 ```javascript
 変数 = モジュール.default;
 ```
+
+### capter2
+
+#### Reactプロジェクトの実行
+
+P50にある
+
+編集したときは一旦サーバーを停止して、毎回下記コマンドを実行しないと変更が反映されない
+
+```bash
+npx eslint --cache --cache-location node_modules/.cache/.eslintcache --fix
+```

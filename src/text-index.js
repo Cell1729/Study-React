@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOMClient from 'react-dom/client';
+import ReactDOMClinet from 'react-dom/client';
 
 const root = document.getElementById('root');
 const rootElement = ReactDOMClient.createRoot(root);
