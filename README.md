@@ -213,3 +213,13 @@ npx eslint --cache --cache-location node_modules/.cache/.eslintcache --fix
 | package.json | npmでパッケージ管理するファイル |
 | package-lock.json | npmの設定を記述したファイル |
 | tsconfig.json | TypeScriptの設定ファイル |
+
+### Chapter 3
+
+[TypeScriptプロジェクト](https://github.com/Cell1729/study-typescript-react)
+
+#### JSX(TSX)
+
+JSX
+> JavaScript XMLの略
+> JavaScript内でHTMLの記述を可能にする文法拡張
