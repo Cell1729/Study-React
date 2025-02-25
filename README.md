@@ -391,3 +391,159 @@ function App() {
 
 export default App;
 ```
+
+#### JSXの構文
+
+##### 条件分岐
+
+- 基本的な構文
+
+```javascript
+{ 真偽値 && JSXの記述}
+```
+
+- 条件分岐により表示切替
+
+```javascript
+{ 真偽値? TRUE処理 : FALSE処理 }
+```
+
+##### 繰り返し処理
+
+mapメソッド
+> 元の配列から新しい配列を作成することが出来るメソッド
+
+```javascript
+配列.map(value => 新しい項目)
+```
+
+> ```=>```について
+> アロー関数...関数を簡略して書いた物
+>> ```引数 => 返り値```
+
+ex
+
+```javascript
+let A = [1, 2, 3];
+let B = A.map(value => value*2);
+// このときBには[2, 4, 6]が入っている
+```
+
+これを踏まえてhtmlに表示する
+
+```javascript
+const data = [
+    {name:'Taro', mail:'taro@yamada', age:45},
+    {name:'Hanako', mail:'hanako@flower', age:80},
+    {name:'sachiko', mail:'sachiko@happy', age:256},
+    {name:'Kimu', mail:'kimu@ti', age:3},
+]
+
+// html
+function App(){
+    return (
+        <div className='container'>
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>mail</th>
+                    <th>age</th>
+                </tr>
+            </thead>
+            <tbody>
+                {data.map(value=>
+                    <tr>
+                        <td>{value.name}</td>
+                        <td>{value.mail}</td>
+                        <td>{value.age}</td>
+                    </tr>
+                )}
+            </tbody>
+        </div>
+    )
+}
+
+export default App
+```
+
+##### オブジェクトを記述
+
+```javascript
+属性 = {{内容}}
+```
+
+Ex
+
+```javascript
+interface DataInterface {
+    data :{
+        name : string,
+        mail : string,
+        age : number,
+    }
+}
+
+function Data(props : DataInterface) {
+    retrun (
+        <p className='msg'>
+            {prps.data.name} - {props.data.age} - {props.data.mail}
+        </p>
+    );
+}
+
+function App() {
+    return (
+        <div calssName='container'>
+            <Data data={{name:'taro', mail:'taro@yamada', age:53}} />
+        </div>
+    )
+}
+```
+
+```<Data data={{name:'taro', mail:'taro@yamada', age:53}} />```このように渡すと下記のように毎回代入しなくて済む
+
+```javascript
+interface DataInterface {
+  data: {
+    name: string;
+    mail: string;
+    age: number;
+  };
+}
+
+function Data(props: DataInterface) {
+  return (
+    <p className='msg'>
+      {props.data.name} - {props.data.age} - {props.data.mail}
+    </p>
+  );
+}
+
+function App() {
+  const userData = { name: 'taro', mail: 'taro@yamada', age: 53 };
+
+  return (
+    <div className='container'>
+      <Data data={userData} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+##### アロー関数
+
+括弧で括った関数を直ぐ実行する
+
+```javascript
+( 関数 )()
+```
+
+表示を作成するようにするためには下記
+
+```javascript
+( ()=>{処理} )()
+```
+
+> アロー関数を即実行する処理
