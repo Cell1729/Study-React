@@ -1,0 +1,18 @@
+body {
+    background-color: aliceblue;
+}
+.container {
+    padding: 10px 25px;
+    margin:25px 20px;
+    font-family: sans-serif;
+    font-size: 1.25em;
+    background: white;;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2em;
+    margin: 0;
+    padding: 0;
+}

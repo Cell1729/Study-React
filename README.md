@@ -223,3 +223,171 @@ npx eslint --cache --cache-location node_modules/.cache/.eslintcache --fix
 JSX
 > JavaScript XMLの略
 > JavaScript内でHTMLの記述を可能にする文法拡張
+
+例えば要素をまとめて表示することが出来る
+
+```javascript
+import React from 'react';
+import ReactDOMClient from 'react-dom/client';
+
+const root = document.getElementById('root');
+const rootElement = ReactDOMClient.createRoot(root);
+
+// const h1 = React.createElement('h1', {}, 'Hello World');
+// const p = React.createElement('p', {}, 'This is React sample application');
+// const div = React.createElement('div', {}, h1, p);
+
+const element = (
+    <div>
+        <h1>Hello World</h1>
+        <p>This is React sample application</p>
+        <p>エレメントを固めて表示</p>
+    </div>
+);
+
+rootElement.render(element);
+```
+
+cssやclassを当てたい場合のindex.js
+
+```javascript
+import React from 'react';
+import ReactDOMClient from 'react-dom/client';
+import './index_style.css'; // 追加
+
+const root = document.getElementById('root');
+const rootElement = ReactDOMClient.createRoot(root);
+
+// const h1 = React.createElement('h1', {}, 'Hello World');
+// const p = React.createElement('p', {}, 'This is React sample application');
+// const div = React.createElement('div', {}, h1, p);
+
+const element = (
+    <div className="container">
+        <h1>Hello World</h1>
+        <p>This is React sample application</p>
+        <p>エレメントを固めて表示</p>
+    </div>
+);
+
+// rootElement.render(div);
+rootElement.render(element);
+```
+
+#### コンポーネントの利用
+
+コンポーネントの概念
+> 要素の作成を毎回1つのファイルに書くのは管理がしにくい
+> -> 部品ごとにファイルを作成しよう (コンポーネント)
+
+下記例では```Msg```関数の呼び出された回数だけ```メッセージはこれ```が表示される。これがコンポーネント。
+
+```javascript
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const title = "React page";
+const message = "メッセージはこれ";
+
+function Msg(){
+  return <p className='msg'>Hello This is Conponent</p>
+}
+
+function App() {
+  return (
+    <div className="container">
+      <h1>{title}</h1>
+      <p>{message}</p>
+      <Msg />
+      <Msg />
+      <Msg />
+      <Msg />
+  </div>
+  );
+}
+
+export default App;
+```
+
+```export default App;```ではファイルをインポートしたときに呼び出せるコンポーネントを定義出来る
+更にコンポーネントに引数を持たせる
+
+```javascript
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const title = "React page";
+const message = "メッセージはこれ";
+
+function Msg(msg: string, size: number, color: string) {
+  const msgStyle = {
+    fontSize: size,
+    color: color
+  }
+  return <p className='msg' style={msgStyle}>{msg}</p>
+}
+
+function App() {
+  return (
+    <div className="container">
+      <h1>{title}</h1>
+      <p>{message}</p>
+      <div>
+        {Msg('これは赤いメッセージです', 20, 'red')}
+        {Msg('これは青いメッセージです', 30, 'blue')}
+        {Msg('これは緑のメッセージです', 40, 'green')}
+      </div>
+  </div>
+  );
+}
+
+export default App;
+```
+
+![実行結果](readme-image\component ex1.png)
+
+> ```<div>```で囲う理由はレンダリング出来るのは1つだけだから、固まらせるため
+
+さらに属性を持たせて書きやすくする
+
+```javascript
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const title = "React page";
+const message = "メッセージはこれ";
+
+// MsgProps型を定義
+type MsgProps = {
+  msg: string,
+  size: number,
+  color: string
+}
+
+function Msg(props: MsgProps) {
+  const msgStyle = {
+    fontSize: props.size,
+    color: props.color
+  }
+  return <p className='msg' style={msgStyle}>{props.msg}</p>
+}
+
+function App() {
+  return (
+    <div className="container">
+      <h1>{title}</h1>
+      <p>{message}</p>
+      <div>
+        <Msg msg={'これは赤いメッセージです'} size={20} color={'red'}/>
+        <Msg msg={'これは青いメッセージです'} size={30} color={'blue'} />
+        <Msg msg={'これは緑のメッセージです'} size={40} color={'green'} />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
