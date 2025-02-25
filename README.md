@@ -346,7 +346,7 @@ function App() {
 export default App;
 ```
 
-![実行結果](readme-image\componentEx1.png)
+![実行結果](readme-image/componentEx1.png)
 
 > ```<div>```で囲う理由はレンダリング出来るのは1つだけだから、固まらせるため
 
