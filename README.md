@@ -547,3 +547,167 @@ export default App;
 ```
 
 > アロー関数を即実行する処理
+
+#### 複数のコンポーネントを利用する
+
+コンポーネントに値ではなくコンテンツを渡す
+
+```javascript
+function Msg(props: {children: string}) {
+    return {
+        <div className="msg">
+            {props.children}
+        </div>
+    };
+}
+
+function App() {
+    return (
+        <div className='container'>
+            <Msg>
+                1行目
+                2行目
+            </Msg>
+        </div>
+    );
+}
+```
+
+他にもhtmlタグを渡すことが出来る
+
+```javascript
+function Msg(props: {children:Array<any>}) {
+    return (
+        <ol className="msg">
+            {props.children.map((child: any) => {
+                return <li style={{margin:"10px 50px"}}>
+                    {child.props.children}
+                </li>;
+            })}
+        </ol>
+    );
+}
+
+function App() {
+    return (
+        <div className='container'>
+            <Msg>
+                <p>1行目</p>
+                <p>2行目</p>
+                <p>3行目</p>
+            </Msg>
+        </div>
+    );
+}
+```
+
+#### 別ファイルにコンポーネントの記述方法
+
+書き方
+
+```javascript
+imoprt React from 'react';
+
+function コンポーネント名() {
+    処理
+}
+
+export default コンポーネント名
+```
+
+実際に使う方法
+
+```javascript
+import コンポーネント名 from 'path';
+```
+
+#### 子コンポーネントから親コンポーネントへ値を渡す
+
+Example:
+
+```javascript
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const title = "React page";
+const message = "メッセージはこれ";
+
+interface MsgProps {
+  message: string;
+  callback: (msg:string) => void;
+}
+
+function Msg(props : MsgProps) {
+    props.callback("メッセージが返されました");
+    return (
+      <div className='msg'>
+        {props.message}
+      </div>
+    );
+}
+
+function App() {
+  let callback = "none";
+  return (
+      <div className='container'>
+        <h1>{title}</h1>
+        <Msg message={message} callback = {(msg : string) => {
+          callback = msg;
+          console.log(callback);
+          alert("callback" + callback);
+        }}/>
+      </div>
+  );
+}
+
+export default App;
+```
+
+1, オブジェクトを作成する。今回の場合```MsgProps```には```message```と```callback```関数を持つ。```callback```関数にはアロー関数で記述して即実行出来るようにする。
+
+```javascript
+interface MsgProps {
+  message: string;
+  callback: (msg:string) => void;
+}
+```
+
+> voidで返り値の関数として記述
+
+2, ```Msg```コンポーネント
+```props.callback("メッセージが返されました");```で```callback```にテキストを代入
+```return```処理でhtmlにメッセージを表示
+
+```javascript
+function Msg(props : MsgProps) {
+    props.callback("メッセージが返されました");
+    return (
+      <div className='msg'>
+        {props.message}
+      </div>
+    );
+}
+```
+
+3, ```App```コンポーネント
+
+```Msg```関数を呼び出し、値を渡す。アロー関数記述をしているため```Msg```関数を呼び出した時点で```alert```を表示するようにしている。
+
+```javascript
+function App() {
+  let callback = "none";
+  return (
+      <div className='container'>
+        <h1>{title}</h1>
+        <Msg message={message} callback = {(msg : string) => {
+          callback = msg;
+          console.log(callback);
+          alert("callback" + callback);
+        }}/>
+      </div>
+  );
+}
+```
+
+親コンポーネント(App)は子コンポーネント(Msg)からテキストを受け取りalertとして表示している
