@@ -711,3 +711,84 @@ function App() {
 ```
 
 親コンポーネント(App)は子コンポーネント(Msg)からテキストを受け取りalertとして表示している
+
+#### 表示の更新とイベント
+
+##### 表示を更新する
+
+1秒間に一度カウントを増やす
+App.tsx
+
+```javascript
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const title = "React page";
+const message = "メッセージはこれ";
+
+function App(props: {counter? : number}) {
+  return (
+    <div className='container'>
+      <h1>{title}</h1>
+      <h2>{message}</h2>
+      <h5 className="msg">
+        count : {props.counter || 0}
+      </h5>
+    </div>
+  );
+}
+
+export default App;
+```
+
+index.tsx
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+var counter = 0;
+
+setInterval(() => {
+  counter += 1;
+  root.render(
+    <React.StrictMode>
+      <App counter={counter} />
+    </React.StrictMode>
+  );
+}, 1000);
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <App counter={counter}/>
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
+
+index.tsxでタイマーを使い定期的にrenderを実行する
+App.tsxはコンポーネント(部品)でinex.tsxでルート(表示)をしている。
+
+```javascript
+setInterval(() => {
+  counter += 1;
+  root.render(
+    <React.StrictMode>
+      <App counter={counter} />
+    </React.StrictMode>
+  );
+}, 1000);
+```
+
+index.tsxで1秒ごとに+1してからAppコンポーネントを呼び出しcounterを代入している。
