@@ -38,7 +38,7 @@ npx create-react-app react_app
 
 ## React
 
-### chapter1
+### Chapter1
 
 #### CDNでReactを読み込む
 
@@ -169,7 +169,7 @@ Reactの取得 (今回の場合はデフォルト機能を使うため「.defaul
 変数 = モジュール.default;
 ```
 
-### capter2
+### Capter2
 
 #### Reactプロジェクトの実行
 
@@ -863,3 +863,5 @@ App.tsxはコンポーネントで、counterとonClickを受け取りcounterの�
 ```
 
 でclickイベントの処理をしている。index.tsxでAppコンポーネントを表示し、クリックに対するアクション```doAction```関数でcounter+1、表示関数を呼び出している。```render```関数でAppコンポーネントを更新し、表示している。
+
+### Chapter 4
