@@ -792,3 +792,74 @@ setInterval(() => {
 ```
 
 index.tsxで1秒ごとに+1してからAppコンポーネントを呼び出しcounterを代入している。
+
+##### クリックして更新する
+
+App.tsx
+
+```javascript
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const title = "React page";
+const message = "メッセージはこれ";
+
+function App(props: {counter? : number,
+  onClick? : () => void}) {
+  return (
+    <div className='container'>
+      <h1>{title}</h1>
+      <h2>{message}</h2>
+      <h5 className="msg" onClick={props.onClick}>
+        count : {props.counter || 0}.
+      </h5>
+    </div>
+  );
+}
+
+export default App;
+```
+
+index.tsx
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+let counter = 0;
+
+const doAction = () => {
+  counter++;
+  render();
+}
+
+function render() {
+  root.render(
+    <React.StrictMode>
+      <App onClick={doAction} counter={counter} />
+    </React.StrictMode>
+  );
+}
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+render();
+```
+
+App.tsxはコンポーネントで、counterとonClickを受け取りcounterの表示と
+
+```html
+<h5 className="msg" onClick={props.onClick}>
+```
+
+でclickイベントの処理をしている。index.tsxでAppコンポーネントを表示し、クリックに対するアクション```doAction```関数でcounter+1、表示関数を呼び出している。```render```関数でAppコンポーネントを更新し、表示している。
