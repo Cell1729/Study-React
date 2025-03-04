@@ -870,7 +870,7 @@ App.tsxはコンポーネントで、counterとonClickを受け取りcounterの�
 
 ステート ... コンポーネント内でデータを保持し、管理するオブジェクト
 
-フック ... コンポーネントを再利用可能な振る舞いを付加刷るために用意されたもの
+フック ... コンポーネントを再利用可能な振る舞いを付加するために用意されたもの
 
 ステートフック ... ステートを作成し利用するための機能を提供する
 
@@ -882,3 +882,79 @@ const [変数A, 変数B] = useState(初期値)
 
 変数A ... ステートの値。ここから現在のステートの値が得られる
 変数B ... ステートの値を変更する関数。この変数に引数をつけて呼び出すことでステートの値が変更される。
+
+App.tsx
+
+```javascript
+import React, { useState } from 'react'
+import './App.css';
+
+function App() {
+  const [message] = useState("welcome to hooks")
+  return (
+    <div>
+      <h1>ReactApp</h1>
+      <div className="container">
+        <h2>Hooks Smaple</h2>
+        <div className="message">
+          <p>{message}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default App;
+```
+
+useStateのインポート
+
+```javascript
+import React, { useState } from 'react'
+```
+
+AppコンポーネントでuseStateを利用し、`welcome to hooks`を代入し、`message`という変数として処理(returnでrender)をしている
+
+##### ステートで数字をカウントする
+
+App.tsx
+
+```javascript
+import React, { useState } from 'react'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+  const clickFunc = () => {
+    setCount(count + 1)
+  }
+
+  return (
+    <div>
+      <h1>React</h1>
+      <div className="container">
+        <h4>Hooks sample</h4>
+        <div>
+          <p>click : {count} times!</p>
+          <div><button onClick={clickFunc}>click me</button></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default App
+```
+
+`useState`を使い`count`と`setCount`を初期化している。`clickFunc`はボタンがクリックされたときのコールバックを定義し、`setCount`で`count+1`している。
+
+再 `useState`の構文
+
+```javascript
+const [state, setState] = useState(initialState);
+const [count, setCount] = useState(0)
+```
+
+- `state`: 現在の状態を保持する変数
+- `setState` : 状態を更新する関数
+- `initialState` : 初期状態の値
