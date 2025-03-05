@@ -958,3 +958,90 @@ const [count, setCount] = useState(0)
 - `state`: 現在の状態を保持する変数
 - `setState` : 状態を更新する関数
 - `initialState` : 初期状態の値
+
+##### ステートを複数作成する
+
+`useState`を使って値の更新が出来るのは１つのみ。
+checkboxの状態でformの色が変化するコンポーネント
+
+App.tsx
+
+```javascript
+import React, { useState } from 'react';
+import './App.css'
+
+function App () {
+  const [count, setCount] = useState(0);
+  const [flag, setFlag] = useState(0);
+
+  const clickFunc = () => {
+    setCount(count+1)
+  }
+
+  const changeFlag = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlag(e.target.checked);
+  }
+
+  return (
+    <div>
+      <h1>React App</h1>
+      <div className="container">
+        {flag ?
+          <div className="true_msg">
+            <p>click : {count} times!</p>
+            <div>
+              <button onClick={clickFunc}>Click me</button>
+            </div>
+          </div>
+          :
+          <div className="false_msg">
+            <p>click : {count} times!</p>
+            <div>
+              <button className="false_button" onClick={ clickFunc }>Click me</button>
+            </div>
+          </div>
+        }
+        <div>
+          <input type="checkbox" id="check1" onChange={ changeFlag } />
+          <label htmlFor="check1">
+            change form style.
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+changeFlagでは引数に`e`を持ち、`Reactの仮想DOMのエレメントで使われるクリックイベントのオブジェクト(React.ChangeEvent)が渡されている。
+`e.target.checked`はFlagを切り換えを行っている
+
+```javascript
+  const changeFlag = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlag(e.target.checked);
+  }
+```
+
+Flag = Trueの場合:
+
+```javascript
+<div className="true_msg">
+  <p>click : {count} times!</p>
+  <div>
+    <button onClick={clickFunc}>Click me</button>
+  </div>
+</div>
+```
+
+Flag=Flaseの場合:
+
+```javascript
+<div className="false_msg">
+  <p>click : {count} times!</p>
+  <div>
+    <button className="false_button" onClick={ clickFunc }>Click me</button>
+  </div>
+</div>
+```
